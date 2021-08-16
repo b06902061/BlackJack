@@ -1,0 +1,67 @@
+type Query {
+    isHost(id: ID, roomID: ID): Boolean
+    getRoom(roomID: ID): Room
+}
+
+type Subscription {
+    subscribeRoom(roomID: ID): Room
+}
+
+type Mutation {
+    createRoom(setting: SettingInput): Room
+    chooseSeat(roomID: ID, name: String, index: Int, originalIndex: Int): Room
+    startGame(roomID: ID): Room
+    setBet(roomID: ID, index: Int, bet: Int): Room
+}
+
+type Room {
+    roomID: ID
+    game: Game
+    setting: Setting
+}
+
+type Game {
+    seats: [Player]
+    cardsNumber: Int
+}
+
+type Player {
+    name: String
+    cash: Float
+    bet: Float
+    actions: [String]
+    cardSets: [[Card]]
+    state: String
+}
+
+type CardSet {
+    cards: [Card]
+}
+
+type Card {
+    visible: Boolean
+    rank: Int
+    suit: Int
+}
+
+input SettingInput {
+    roomSetting: RoomSettingInput
+}
+
+input RoomSettingInput {
+    minBet: Int
+    maxBet: Int
+    decksNumber: Int
+    roomSize: Int
+}
+
+type Setting {
+    roomSetting: RoomSetting
+}
+
+type RoomSetting {
+    minBet: Int
+    maxBet: Int
+    decksNumber: Int
+    roomSize: Int
+}
